@@ -9,5 +9,17 @@
 
 
  #define macro MAIN() = takes(0) returns(0) {
-    
+   calldatasize               // [calldatasize]
+   returndatasize             // [offset, calldasize]
+
+   loop:
+      dup1 calldataload       // [offset_calldata, offset, calldatasize]
+      dup2 mstore             // [offset, calldatasize]
+      0x20 add
+      dup2 dup2 lt loop jumpi
+
+   pop returndatasize sha3
+   returndatasize mstore
+
+   0x20 returndatasize return
  }
